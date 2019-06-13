@@ -19,22 +19,19 @@ module InstitucionalSite
   end
   class F1SalesCustom::Email::Parser
     def parse
-      parsed_email = @email.body.colons_to_hash(/(nome|De|E-mail|email|Telefone|telefone|Estado).*?:/, false)
-      state = @email.body.colons_to_hash['estado']
-      message = ''
-      message = @email.body.split('Estado').last.split("\n").drop(1).join("\n") if state
+      parsed_email = @email.body.colons_to_hash(/(nome|email|telefone).*?:/, false)
 
       {
         source: {
           name: F1SalesCustom::Email::Source.all.first[:name],
         },
         customer: {
-          name: (parsed_email['nome'] || parsed_email['de']),
+          name: parsed_email['nome'],
           phone: parsed_email['telefone'].tr('^0-9', ''),
           email: parsed_email['email']
         },
-        product: '',
-        message: message,
+        product: 'F1Sales',
+        message: '',
       }
 
     end

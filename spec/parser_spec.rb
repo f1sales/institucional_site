@@ -31,6 +31,10 @@ RSpec.describe F1SalesCustom::Email::Parser do
     it 'contains phone' do
       expect(parsed_email[:customer][:phone]).to eq('11981587311')
     end
+
+    it 'contains product' do
+      expect(parsed_email[:product]).to eq('F1Sales')
+    end
   end
 
 
